@@ -16,6 +16,26 @@ Sampler_2020AudioProcessorEditor::Sampler_2020AudioProcessorEditor (Sampler_2020
     mLoadButton.onClick = [&]() { processor.loadFile(); };
     addAndMakeVisible(mLoadButton);
     
+    mAttackSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
+    mAttackSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 40, 20);
+    mAttackSlider.setRange(0.0f, 5.0f, 0.01f);
+    addAndMakeVisible(mAttackSlider);
+    
+    mDecaySlider.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
+    mDecaySlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 40, 20);
+    mDecaySlider.setRange(0.0f, 5.0f, 0.01f);
+    addAndMakeVisible(mDecaySlider);
+    
+    mSustainSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
+    mSustainSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 40, 20);
+    mSustainSlider.setRange(0.0f, 1.0f, 0.01f);
+    addAndMakeVisible(mSustainSlider);
+    
+    mReleaseSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
+    mReleaseSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 40, 20);
+    mReleaseSlider.setRange(0.0f, 1.0f, 0.01f);
+    addAndMakeVisible(mReleaseSlider);
+    
     setSize (600, 300);
 }
 
@@ -78,6 +98,16 @@ void Sampler_2020AudioProcessorEditor::paint (juce::Graphics& g)
 void Sampler_2020AudioProcessorEditor::resized()
 {
     //mLoadButton.setBounds(getWidth() / 2 - 50 , getHeight() / 2 - 50, 100, 100);
+    
+    const auto startX = 0.6f;
+    const auto startY = 0.6f;
+    const auto dialWidth = 0.1f;
+    const auto dialHeight = 0.4f;
+    
+    mAttackSlider.setBoundsRelative(startX, startY, dialWidth, dialHeight);
+    mDecaySlider.setBoundsRelative(startX + dialWidth, startY, dialWidth, dialHeight);
+    mSustainSlider.setBoundsRelative(startX + (dialWidth * 2), startY, dialWidth, dialHeight);
+    mReleaseSlider.setBoundsRelative(startX + (dialWidth * 3), startY, dialWidth, dialHeight);
 }
 
 bool Sampler_2020AudioProcessorEditor::isInterestedInFileDrag(const juce::StringArray& files)

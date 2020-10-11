@@ -34,6 +34,8 @@ private:
     std::vector<float> mAudioPoints;
     bool mShouldBePainting { false };
     
+    juce::Slider mAttackSlider, mDecaySlider, mSustainSlider, mReleaseSlider;
+    
     Sampler_2020AudioProcessor& processor;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Sampler_2020AudioProcessorEditor)
