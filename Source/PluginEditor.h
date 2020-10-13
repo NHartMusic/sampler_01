@@ -15,7 +15,8 @@
 /**
 */
 class Sampler_2020AudioProcessorEditor  : public juce::AudioProcessorEditor,
-                                          public juce::FileDragAndDropTarget
+                                          public juce::FileDragAndDropTarget,
+                                          public juce::Slider::Listener
 {
 public:
     Sampler_2020AudioProcessorEditor (Sampler_2020AudioProcessor&);
@@ -27,6 +28,8 @@ public:
     
     bool isInterestedInFileDrag (const juce::StringArray& files) override;
     void filesDropped (const juce::StringArray& files, int x, int y) override;
+    
+    void sliderValueChanged (juce::Slider* slider) override;
 
 private:
     
@@ -35,6 +38,7 @@ private:
     bool mShouldBePainting { false };
     
     juce::Slider mAttackSlider, mDecaySlider, mSustainSlider, mReleaseSlider;
+    juce::Label mAttackLabel, mDecayLabel, mSustainLabel, mReleaseLabel;
     
     Sampler_2020AudioProcessor& processor;
 

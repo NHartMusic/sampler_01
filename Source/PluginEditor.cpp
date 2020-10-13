@@ -16,25 +16,61 @@ Sampler_2020AudioProcessorEditor::Sampler_2020AudioProcessorEditor (Sampler_2020
     mLoadButton.onClick = [&]() { processor.loadFile(); };
     addAndMakeVisible(mLoadButton);
     
+        //Attack Slider
     mAttackSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
     mAttackSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 40, 20);
+    mAttackSlider.setColour(juce::Slider::thumbColourId, juce::Colours::blue);
     mAttackSlider.setRange(0.0f, 5.0f, 0.01f);
+    mAttackSlider.addListener(this);
     addAndMakeVisible(mAttackSlider);
     
+    mAttackLabel.setFont(10.0f);
+    mAttackLabel.setText("Attack", juce::NotificationType::dontSendNotification);
+    mAttackLabel.setColour(juce::Label::ColourIds::textColourId, juce::Colours::green);
+    mAttackLabel.setJustificationType(juce::Justification::centredTop);
+    mAttackLabel.attachToComponent(&mAttackSlider, false);
+    
+        //Decay Slider
     mDecaySlider.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
     mDecaySlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 40, 20);
+    mDecaySlider.setColour(juce::Slider::thumbColourId, juce::Colours::blue);
     mDecaySlider.setRange(0.0f, 5.0f, 0.01f);
+    mDecaySlider.addListener(this);
     addAndMakeVisible(mDecaySlider);
     
+    mDecayLabel.setFont(10.0f);
+    mDecayLabel.setText("Decay", juce::NotificationType::dontSendNotification);
+    mDecayLabel.setColour(juce::Label::ColourIds::textColourId, juce::Colours::green);
+    mDecayLabel.setJustificationType(juce::Justification::centredTop);
+    mDecayLabel.attachToComponent(&mDecaySlider, false);
+
+        //Sustain Slider
     mSustainSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
     mSustainSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 40, 20);
+    mSustainSlider.setColour(juce::Slider::thumbColourId, juce::Colours::blue);
     mSustainSlider.setRange(0.0f, 1.0f, 0.01f);
+    mSustainSlider.addListener(this);
     addAndMakeVisible(mSustainSlider);
     
+    mSustainLabel.setFont(10.0f);
+    mSustainLabel.setText("Sustain", juce::NotificationType::dontSendNotification);
+    mSustainLabel.setColour(juce::Label::ColourIds::textColourId, juce::Colours::green);
+    mSustainLabel.setJustificationType(juce::Justification::centredTop);
+    mSustainLabel.attachToComponent(&mSustainSlider, false);
+    
+        //Release Slider
     mReleaseSlider.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
     mReleaseSlider.setTextBoxStyle(juce::Slider::TextBoxBelow, true, 40, 20);
+    mReleaseSlider.setColour(juce::Slider::thumbColourId, juce::Colours::blue);
     mReleaseSlider.setRange(0.0f, 1.0f, 0.01f);
+    mReleaseSlider.addListener(this);
     addAndMakeVisible(mReleaseSlider);
+    
+    mReleaseLabel.setFont(10.0f);
+    mReleaseLabel.setText("Release", juce::NotificationType::dontSendNotification);
+    mReleaseLabel.setColour(juce::Label::ColourIds::textColourId, juce::Colours::green);
+    mReleaseLabel.setJustificationType(juce::Justification::centredTop);
+    mReleaseLabel.attachToComponent(&mReleaseSlider, false);
     
     setSize (600, 300);
 }
@@ -104,10 +140,12 @@ void Sampler_2020AudioProcessorEditor::resized()
     const auto dialWidth = 0.1f;
     const auto dialHeight = 0.4f;
     
+
     mAttackSlider.setBoundsRelative(startX, startY, dialWidth, dialHeight);
     mDecaySlider.setBoundsRelative(startX + dialWidth, startY, dialWidth, dialHeight);
     mSustainSlider.setBoundsRelative(startX + (dialWidth * 2), startY, dialWidth, dialHeight);
     mReleaseSlider.setBoundsRelative(startX + (dialWidth * 3), startY, dialWidth, dialHeight);
+    
 }
 
 bool Sampler_2020AudioProcessorEditor::isInterestedInFileDrag(const juce::StringArray& files)
@@ -134,4 +172,21 @@ void Sampler_2020AudioProcessorEditor::filesDropped(const juce::StringArray &fil
     }
     
     repaint();
+}
+
+void Sampler_2020AudioProcessorEditor::sliderValueChanged(juce::Slider* slider)
+{
+    if (slider == &mAttackSlider)
+    {
+        processor.attack = mAttackSlider.getValue();
+    } else if (slider == &mDecaySlider)
+    {
+        processor.decay = mDecaySlider.getValue();
+    } else if (slider == &mSustainSlider)
+    {
+        processor.sustain = mSustainSlider.getValue();
+    }  else if (slider == &mReleaseSlider)
+    {
+        processor.release = mReleaseSlider.getValue();
+    }
 }

@@ -139,7 +139,8 @@ void Sampler_2020AudioProcessor::processBlock (juce::AudioBuffer<float>& buffer,
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
 
-
+    getADSRValue();
+    
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
 
@@ -206,6 +207,11 @@ void Sampler_2020AudioProcessor::loadFile(const juce::String& path)
     range.setRange(0, 128, true);
        
     mSampler.addSound(new juce::SamplerSound("Sample", *mFormatReader, range, 60, 0.1, 0.1, 10));
+}
+
+void Sampler_2020AudioProcessor::getADSRValue()
+{
+    DBG ("Attack: " << attack << "Decay: " << decay << "Sustain: " << sustain << "Release :" << release);
 }
 
 // This creates new instances of the plugin..
