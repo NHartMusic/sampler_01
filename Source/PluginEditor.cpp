@@ -178,15 +178,17 @@ void Sampler_2020AudioProcessorEditor::sliderValueChanged(juce::Slider* slider)
 {
     if (slider == &mAttackSlider)
     {
-        processor.attack = mAttackSlider.getValue();
+        processor.getADSRParams().attack = mAttackSlider.getValue();
     } else if (slider == &mDecaySlider)
     {
-        processor.decay = mDecaySlider.getValue();
+        processor.getADSRParams().decay = mAttackSlider.getValue();
     } else if (slider == &mSustainSlider)
     {
-        processor.sustain = mSustainSlider.getValue();
+        processor.getADSRParams().sustain = mAttackSlider.getValue();
     }  else if (slider == &mReleaseSlider)
     {
-        processor.release = mReleaseSlider.getValue();
+        processor.getADSRParams().release = mAttackSlider.getValue();
     }
+    
+    processor.updateADSR();
 }

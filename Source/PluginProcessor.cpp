@@ -101,6 +101,7 @@ void Sampler_2020AudioProcessor::changeProgramName (int index, const juce::Strin
 void Sampler_2020AudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
     mSampler.setCurrentPlaybackSampleRate(sampleRate);
+    updateADSR();
 }
 
 void Sampler_2020AudioProcessor::releaseResources()
@@ -138,8 +139,6 @@ void Sampler_2020AudioProcessor::processBlock (juce::AudioBuffer<float>& buffer,
     juce::ScopedNoDenormals noDenormals;
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
-
-    getADSRValue();
     
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear (i, 0, buffer.getNumSamples());
@@ -209,11 +208,15 @@ void Sampler_2020AudioProcessor::loadFile(const juce::String& path)
     mSampler.addSound(new juce::SamplerSound("Sample", *mFormatReader, range, 60, 0.1, 0.1, 10));
 }
 
-void Sampler_2020AudioProcessor::getADSRValue()
+void Sampler_2020AudioProcessor::updateADSR()
 {
-    DBG ("Attack: " << attack << "Decay: " << decay << "Sustain: " << sustain << "Release :" << release);
+    for (int i = 0; i < mSampler.getNumSounds(); ++i)
+       {
+           if (auto sound = dynamic_cast<juce::SamplerSound*>( mSampler.getSound(i).get())) {
+               sound->setEnvelopeParameters(mADSRParams);
+           }
+       }
 }
-
 // This creates new instances of the plugin..
 
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
