@@ -62,6 +62,7 @@ public:
     void updateADSR();
     
     juce::ADSR::Parameters& getADSRParams() { return mADSRParams; }
+    juce::AudioProcessorValueTreeState& getAPVTS() { return mAPVTS; }
 
 private:
     //==============================================================================
@@ -73,6 +74,9 @@ private:
     
     juce::AudioFormatManager mFormatManager;
     juce::AudioFormatReader* mFormatReader { nullptr };
+    
+    juce::AudioProcessorValueTreeState mAPVTS;
+    juce::AudioProcessorValueTreeState::ParameterLayout createParameters();
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Sampler_2020AudioProcessor)
 };

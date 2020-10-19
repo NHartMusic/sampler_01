@@ -19,7 +19,7 @@ Sampler_2020AudioProcessor::Sampler_2020AudioProcessor()
                       #endif
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                      #endif
-                       )
+                       ), mAPVTS(*this, nullptr, "PARAMETERS", createParameters())
 #endif
 {
     mFormatManager.registerBasicFormats();
@@ -218,6 +218,19 @@ void Sampler_2020AudioProcessor::updateADSR()
        }
 }
 // This creates new instances of the plugin..
+
+
+juce::AudioProcessorValueTreeState::ParameterLayout Sampler_2020AudioProcessor::createParameters()
+{
+    std::vector<std::unique_ptr<juce::RangedAudioParameter>> parameters;
+    
+    parameters.push_back(std::make_unique<juce::AudioParameterFloat>("ATTACK", "Attack", 0.0f, 5.0f, 0.0f));
+    parameters.push_back(std::make_unique<juce::AudioParameterFloat>("DECAY", "Decay", 0.0f, 3.0f, 2.0f));
+    parameters.push_back(std::make_unique<juce::AudioParameterFloat>("SUSTAIN", "Sustain", 0.0f, 1.0f, 1.0f));
+    parameters.push_back(std::make_unique<juce::AudioParameterFloat>("Release", "Release", 0.0f, 5.0f, 2.0f));
+    
+    return { parameters.begin(), parameters.end() };
+}
 
 juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
