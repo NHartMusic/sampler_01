@@ -13,12 +13,13 @@
 //==============================================================================
 /**
 */
-class Sampler_2020AudioProcessor  : public juce::AudioProcessor
+class Sampler_2020AudioProcessor  : public juce::AudioProcessor,
+                                    public juce::ValueTree::Listener
 {
 public:
     //==============================================================================
     Sampler_2020AudioProcessor();
-    ~Sampler_2020AudioProcessor() override;
+    ~Sampler_2020AudioProcessor();
 
     //==============================================================================
     void prepareToPlay (double sampleRate, int samplesPerBlock) override;
@@ -77,6 +78,9 @@ private:
     
     juce::AudioProcessorValueTreeState mAPVTS;
     juce::AudioProcessorValueTreeState::ParameterLayout createParameters();
+    void valueTreePropertyChanged (juce::ValueTree &treeWhosePropertyHasChanged, const juce::Identifier &property) override;
+    
+    std::atomic<bool> mShouldUpdate { false }; 
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Sampler_2020AudioProcessor)
 };
