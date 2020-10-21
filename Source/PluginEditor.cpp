@@ -83,7 +83,7 @@ Sampler_2020AudioProcessorEditor::~Sampler_2020AudioProcessorEditor()
 //==============================================================================
 void Sampler_2020AudioProcessorEditor::paint (juce::Graphics& g)
 {
-    g.fillAll(juce::Colours::black);
+    g.fillAll(juce::Colours::turquoise);
     
     g.setColour(juce::Colours::white);
     
